@@ -17,10 +17,10 @@ registry-lite/
 
 ## Getting started
 
-Requires Node.js >= 20.
+Requires Node.js >= 20 and pnpm >= 10.
 
 ```bash
-npm install
+pnpm install
 ```
 
 ### Development
@@ -28,30 +28,32 @@ npm install
 Run both apps in parallel:
 
 ```bash
-npm run dev
+pnpm dev
 ```
 
 Or run individually:
 
 ```bash
 # Frontend — http://localhost:3000
-npm run dev --workspace=apps/frontend
+pnpm --filter frontend dev
 
 # Backend — http://localhost:3000/graphql (GraphQL Playground)
-npm run dev --workspace=apps/backend
+pnpm --filter backend dev
 ```
 
 ### Build
 
 ```bash
-npm run build
+pnpm build
 ```
 
-### Lint & typecheck
+### Lint, format & typecheck
 
 ```bash
-npm run lint
-npm run typecheck
+pnpm lint        # biome check via Turbo (all packages)
+pnpm check       # biome check across entire repo at once
+pnpm format      # biome format --write
+pnpm typecheck   # tsc --noEmit via Turbo (all packages)
 ```
 
 ## Apps
