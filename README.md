@@ -9,9 +9,9 @@ registry-lite/
 ├── apps/
 │   ├── frontend/        # Next.js 16 app (React 19, Tailwind CSS, TypeScript)
 │   └── backend/         # NestJS 11 app (GraphQL via Apollo Server 5, TypeScript + Prisma)
-│       └── prisma/      # Prisma schema and migrations
+│       ├── prisma/      # Prisma schema and migrations
+│       └── docker-compose.yml  # Local PostgreSQL database
 ├── packages/            # Shared packages (future)
-├── docker-compose.yml   # Local PostgreSQL database
 ├── turbo.json           # Turborepo pipeline config
 ├── tsconfig.base.json
 └── package.json         # Root workspace config
@@ -33,10 +33,10 @@ pnpm install
 
 ### Database
 
-Start the local PostgreSQL database:
+Start the local PostgreSQL database (from `apps/backend/`, or prefix with `pnpm --filter backend`):
 
 ```bash
-pnpm db:up
+pnpm --filter backend db:up
 ```
 
 Copy the backend environment file and apply migrations:
@@ -47,14 +47,14 @@ pnpm --filter backend db:migrate    # applies migrations, creates the schema
 pnpm --filter backend db:generate   # generates the Prisma client and GraphQL types
 ```
 
-The credentials in `.env.example` already match `docker-compose.yml`, so no edits are needed for local development.
+The credentials in `.env.example` already match `apps/backend/docker-compose.yml`, so no edits are needed for local development.
 
 Other database commands:
 
 | Command | Description |
 |---|---|
-| `pnpm db:down` | Stop the database container |
-| `pnpm db:reset` | Destroy all data and recreate the database |
+| `pnpm --filter backend db:down` | Stop the database container |
+| `pnpm --filter backend db:reset` | Destroy all data and recreate the database |
 | `pnpm --filter backend db:studio` | Open Prisma Studio (database GUI) |
 
 ### Development
@@ -100,10 +100,13 @@ Next.js 16 with the App Router, Tailwind CSS v4, and TypeScript.
 
 NestJS 11 with code-first GraphQL (Apollo Server 5) and Prisma ORM. The GraphQL Playground is available at `/graphql` when the server is running.
 
-Prisma scripts (run from `apps/backend/` or prefixed with `pnpm --filter backend`):
+The `docker-compose.yml` for the local PostgreSQL database lives here. All database scripts (run from `apps/backend/` or prefixed with `pnpm --filter backend`):
 
 | Script | Description |
 |---|---|
+| `db:up` | Start the local PostgreSQL container |
+| `db:down` | Stop the database container |
+| `db:reset` | Destroy all data and recreate the database |
 | `db:generate` | Regenerate the Prisma client and NestJS/GraphQL types |
 | `db:migrate` | Create and apply a new migration (dev) |
 | `db:migrate:deploy` | Apply pending migrations (production) |
