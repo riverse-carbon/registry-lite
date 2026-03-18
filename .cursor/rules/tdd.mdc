@@ -1,0 +1,39 @@
+---
+description: Enforce red-green-refactor TDD cycle for all feature and bug-fix work
+alwaysApply: true
+---
+
+# Test-Driven Development (Red-Green-Refactor)
+
+All feature development and bug fixes **must** follow the red-green-refactor TDD cycle. Never write implementation code before a failing test exists for it.
+
+## The Cycle
+
+### 1. Red — Write a failing test first
+- Write the smallest possible test that captures the desired behaviour or exposes the bug.
+- Run the test suite and confirm the new test **fails** (red) before touching any implementation code.
+- A test that passes before any implementation is written is a broken test — stop and fix it.
+
+### 2. Green — Make the test pass with minimal code
+- Write only enough implementation code to make the failing test pass.
+- Do not add logic, optimisations, or extra features that are not required by the currently-failing test.
+- Run the test suite again and confirm **all** tests pass (green).
+
+### 3. Refactor — Improve the code without changing behaviour
+- Clean up duplication, naming, structure, and design in both the implementation and the tests.
+- After every refactor step, run the full test suite to confirm everything remains green.
+- Commit only when all tests pass and the code is clean.
+
+## Practical Rules
+
+- **One failing test at a time.** Do not write multiple new tests before making the first one pass.
+- **Test behaviour, not implementation.** Tests should assert observable outcomes (return values, side effects, emitted events), not internal details.
+- **Keep tests fast and isolated.** Unit tests must not hit the database, network, or filesystem unless they are explicitly integration/e2e tests.
+- **Backend tests** live in `apps/backend/src/**/*.spec.ts` (unit) and `apps/backend/test/**/*.e2e-spec.ts` (e2e).
+- **Frontend tests** (once configured) live alongside their component files as `*.test.tsx` / `*.spec.tsx`.
+- Use `pnpm test` (via Turborepo) to run the full test suite. For a fast inner loop in the backend, run `jest --watch` inside `apps/backend/`.
+
+## Commit Discipline
+
+- Never commit red (failing) tests unless the commit message explicitly marks the work as in-progress (e.g. `wip:`).
+- The final commit for any piece of work must have a fully green test suite.

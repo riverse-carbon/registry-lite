@@ -1,0 +1,65 @@
+---
+description: Require tests, typecheck, and Biome (lint + format) to pass before every commit
+alwaysApply: true
+---
+
+# Pre-Commit Quality Checks
+
+Before staging and committing **any** code change, all three of the following checks must pass locally. Never commit code that fails any of them.
+
+## Required Checks (run in this order)
+
+### 1. Tests
+```bash
+pnpm test
+```
+Runs Jest across all workspaces via Turborepo. All existing tests must remain green. New code must be covered by tests written in the TDD cycle (see `tdd.mdc`).
+
+### 2. Type-check
+```bash
+pnpm typecheck
+```
+Runs `tsc --noEmit` in every app/package. Zero TypeScript errors are acceptable — do not use `// @ts-ignore` or `// @ts-expect-error` to silence errors without a documented reason.
+
+### 3. Biome (lint + format)
+```bash
+pnpm check
+```
+Runs `biome check .` from the repo root, covering linting **and** formatting for all `.ts`, `.tsx`, `.js`, `.mjs`, `.jsx`, and `.json` files.
+
+To auto-fix safe issues (formatting and safe lint fixes) before the check:
+```bash
+pnpm format          # biome format --write .
+pnpm check --write   # biome check --write . (applies safe fixes)
+```
+
+## The Pre-Commit Sequence
+
+Run these commands from the repo root before every `git commit`:
+
+```bash
+pnpm test && pnpm typecheck && pnpm check
+```
+
+All three must exit with code `0`. If any step fails:
+1. Fix the reported issues.
+2. Re-run the full sequence from the beginning.
+3. Do not proceed to `git commit` until the sequence passes cleanly end-to-end.
+
+## Key Configuration Locations
+
+| Tool | Config |
+|---|---|
+| Biome (lint + format) | `/workspace/biome.json` |
+| TypeScript (root base) | `/workspace/tsconfig.base.json` |
+| TypeScript (backend) | `/workspace/apps/backend/tsconfig.json` |
+| TypeScript (frontend) | `/workspace/apps/frontend/tsconfig.json` |
+| Jest (backend unit) | inline in `/workspace/apps/backend/package.json` |
+| Jest (backend e2e) | `/workspace/apps/backend/test/jest-e2e.json` |
+| Turborepo pipeline | `/workspace/turbo.json` |
+
+## Notes
+
+- The `pnpm check` command at the repo root runs Biome across the entire monorepo in one pass, which is faster than running per-app.
+- Turborepo caches task outputs — if nothing has changed, `pnpm test` and `pnpm typecheck` will return instantly from cache. This is expected behaviour, not a skipped check.
+- Do not bypass these checks with `--no-verify` on `git commit` unless directed to do so explicitly by the user.
