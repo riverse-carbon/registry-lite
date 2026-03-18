@@ -39,10 +39,11 @@ Start the local PostgreSQL database (from `apps/backend/`, or prefix with `pnpm 
 pnpm --filter backend db:up
 ```
 
-Copy the backend environment file and apply migrations:
+Copy the environment files and apply migrations:
 
 ```bash
 cp apps/backend/.env.example apps/backend/.env
+cp apps/frontend/.env.example apps/frontend/.env.local
 pnpm --filter backend db:migrate    # applies migrations, creates the schema
 pnpm --filter backend db:generate   # generates the Prisma client and GraphQL types
 ```
@@ -71,7 +72,7 @@ Or run individually:
 # Frontend — http://localhost:3000
 pnpm --filter frontend dev
 
-# Backend — http://localhost:3000/graphql (GraphQL Playground)
+# Backend — http://localhost:3001/graphql (GraphQL Playground)
 pnpm --filter backend dev
 ```
 

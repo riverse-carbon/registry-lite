@@ -1,5 +1,6 @@
 import { Badge, Button, Card, Navbar, NavbarBrand } from 'flowbite-react';
 import { HiArrowRight, HiCube, HiLockClosed, HiSearch } from 'react-icons/hi';
+import { ProjectsTable } from '@/components/projects-table';
 
 export default function Home() {
   return (
@@ -34,6 +35,18 @@ export default function Home() {
                 Publish a Package
               </Button>
             </div>
+          </div>
+        </section>
+
+        <section className="py-16 px-4">
+          <div className="mx-auto max-w-5xl">
+            <h2 className="mb-4 text-center text-3xl font-bold text-gray-900 dark:text-white">
+              Projects
+            </h2>
+            <p className="mb-8 text-center text-gray-500 dark:text-gray-400">
+              All projects registered in the registry.
+            </p>
+            <ProjectsTable />
           </div>
         </section>
 
