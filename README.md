@@ -107,6 +107,7 @@ The `docker-compose.yml` for the local PostgreSQL database lives here. All datab
 | `db:up` | Start the local PostgreSQL container |
 | `db:down` | Stop the database container |
 | `db:reset` | Destroy all data and recreate the database |
+| `db:seed` | Seed the database with initial data |
 | `db:generate` | Regenerate the Prisma client and NestJS/GraphQL types |
 | `db:migrate` | Create and apply a new migration (dev) |
 | `db:migrate:deploy` | Apply pending migrations (production) |
