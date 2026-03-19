@@ -4,10 +4,10 @@ import { OrganizationService } from './organization.service';
 
 describe('OrganizationService', () => {
   let service: OrganizationService;
-  let prisma: { organization: { findUnique: jest.Mock } };
+  let prisma: { organization: { findUnique: jest.Mock }; project: { findMany: jest.Mock } };
 
   beforeEach(async () => {
-    prisma = { organization: { findUnique: jest.fn() } };
+    prisma = { organization: { findUnique: jest.fn() }, project: { findMany: jest.fn() } };
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [OrganizationService, { provide: PrismaService, useValue: prisma }],
@@ -34,5 +34,30 @@ describe('OrganizationService', () => {
     const result = await service.findById('unknown-id');
 
     expect(result).toBeNull();
+  });
+
+  describe('findProjectsByOrganizationId', () => {
+    it('returns all projects belonging to the organization', async () => {
+      const projects = [
+        { id: 'proj-1', name: 'Solar Farm', organizationId: 'org-1' },
+        { id: 'proj-2', name: 'Wind Park', organizationId: 'org-1' },
+      ];
+      prisma.project.findMany.mockResolvedValue(projects);
+
+      const result = await service.findProjectsByOrganizationId('org-1');
+
+      expect(result).toEqual(projects);
+      expect(prisma.project.findMany).toHaveBeenCalledWith({
+        where: { organizationId: 'org-1' },
+      });
+    });
+
+    it('returns an empty array when the organization has no projects', async () => {
+      prisma.project.findMany.mockResolvedValue([]);
+
+      const result = await service.findProjectsByOrganizationId('org-empty');
+
+      expect(result).toEqual([]);
+    });
   });
 });

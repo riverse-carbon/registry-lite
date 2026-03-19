@@ -10,4 +10,10 @@ export class OrganizationService {
   findById(id: string): Promise<Organization | null> {
     return this.prisma.organization.findUnique({ where: { id } });
   }
+
+  findProjectsByOrganizationId(
+    organizationId: string,
+  ): Promise<{ id: string; name: string; organizationId: string }[]> {
+    return this.prisma.project.findMany({ where: { organizationId } });
+  }
 }
