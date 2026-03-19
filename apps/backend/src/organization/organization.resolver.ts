@@ -1,7 +1,6 @@
 import { Args, ID, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
 import { Project } from '../project/project.model';
 import { Organization } from './organization.model';
-// biome-ignore lint/style/useImportType: NestJS DI requires a value import
 import { OrganizationService } from './organization.service';
 
 @Resolver(() => Organization)
