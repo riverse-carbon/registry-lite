@@ -27,6 +27,9 @@
       "@nestjs/core",
       "sharp",
       "unrs-resolver"
+    ],
+    "onlyBuiltDependencies": [
+      "@swc/core"
     ]
   }
 }
