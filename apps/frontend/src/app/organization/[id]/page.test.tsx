@@ -1,8 +1,12 @@
 import { render, screen } from '@testing-library/react';
 import OrganizationPage from './page';
 
+jest.mock('@/components/organization-detail', () => ({
+  OrganizationDetail: ({ id }: { id: string }) => <div>{id}</div>,
+}));
+
 describe('OrganizationPage', () => {
-  it('displays the organization id', async () => {
+  it('passes the id to OrganizationDetail', async () => {
     render(await OrganizationPage({ params: Promise.resolve({ id: 'org-xyz' }) }));
     expect(screen.getByText('org-xyz')).toBeInTheDocument();
   });
