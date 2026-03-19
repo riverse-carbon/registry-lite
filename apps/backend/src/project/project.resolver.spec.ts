@@ -7,11 +7,11 @@ import { ProjectService } from './project.service';
 
 describe('ProjectResolver', () => {
   let resolver: ProjectResolver;
-  let projectService: { findAll: jest.Mock };
+  let projectService: { findAll: jest.Mock; create: jest.Mock };
   let organizationService: { findById: jest.Mock };
 
   beforeEach(async () => {
-    projectService = { findAll: jest.fn() };
+    projectService = { findAll: jest.fn(), create: jest.fn() };
     organizationService = { findById: jest.fn() };
 
     const module: TestingModule = await Test.createTestingModule({
@@ -63,6 +63,19 @@ describe('ProjectResolver', () => {
       const result = await resolver.organization(project);
 
       expect(result).toBeNull();
+    });
+  });
+
+  describe('createProject', () => {
+    it('creates a project and returns it', async () => {
+      const input = { name: 'New Project', organizationId: 'org-1' };
+      const created = { id: 'proj-new', name: 'New Project', organizationId: 'org-1' };
+      projectService.create.mockResolvedValue(created);
+
+      const result = await resolver.createProject(input);
+
+      expect(result).toEqual(created);
+      expect(projectService.create).toHaveBeenCalledWith(input);
     });
   });
 });
