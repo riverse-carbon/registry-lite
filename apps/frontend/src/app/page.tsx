@@ -37,9 +37,7 @@ export default function Home() {
                   <div className="mb-4 rounded-full bg-purple-100 p-4 dark:bg-purple-900">
                     <HiThumbUp className="h-7 w-7 text-purple-600 dark:text-purple-300" />
                   </div>
-                  <h3 className="mb-2 text-xl font-semibold text-gray-900 dark:text-white">
-                    Easy
-                  </h3>
+                  <h3 className="mb-2 text-xl font-semibold text-gray-900 dark:text-white">Easy</h3>
                   <p className="text-gray-500 dark:text-gray-400">
                     Search and explore thousands of carbon projects with ease.
                   </p>
@@ -50,9 +48,7 @@ export default function Home() {
                   <div className="mb-4 rounded-full bg-blue-100 p-4 dark:bg-blue-900">
                     <HiCube className="h-7 w-7 text-blue-600 dark:text-blue-300" />
                   </div>
-                  <h3 className="mb-2 text-xl font-semibold text-gray-900 dark:text-white">
-                    Fast
-                  </h3>
+                  <h3 className="mb-2 text-xl font-semibold text-gray-900 dark:text-white">Fast</h3>
                   <p className="text-gray-500 dark:text-gray-400">
                     Share your credits with the community in seconds.
                   </p>

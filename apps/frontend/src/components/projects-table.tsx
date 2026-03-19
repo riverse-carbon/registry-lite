@@ -17,7 +17,9 @@ const GET_PROJECTS = gql`
     projects {
       id
       name
-      organizationId
+      organization {
+        name
+      }
     }
   }
 `;
@@ -25,7 +27,7 @@ const GET_PROJECTS = gql`
 type Project = {
   id: string;
   name: string;
-  organizationId: string;
+  organization: { name: string } | null;
 };
 
 type GetProjectsData = {
@@ -55,7 +57,7 @@ export function ProjectsTable() {
     <Table hoverable>
       <TableHead>
         <TableHeadCell>Project</TableHeadCell>
-        <TableHeadCell>Organization ID</TableHeadCell>
+        <TableHeadCell>Organization</TableHeadCell>
       </TableHead>
       <TableBody className="divide-y">
         {data?.projects.length === 0 && (
@@ -70,8 +72,8 @@ export function ProjectsTable() {
             <TableCell className="font-medium text-gray-900 dark:text-white">
               {project.name}
             </TableCell>
-            <TableCell className="font-mono text-xs text-gray-500 dark:text-gray-400">
-              {project.organizationId}
+            <TableCell className="text-gray-700 dark:text-gray-300">
+              {project.organization?.name ?? '—'}
             </TableCell>
           </TableRow>
         ))}

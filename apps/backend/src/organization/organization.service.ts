@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+// biome-ignore lint/style/useImportType: NestJS DI requires a value import
 import { PrismaService } from '../prisma/prisma.service';
 import type { Organization } from './organization.model';
 

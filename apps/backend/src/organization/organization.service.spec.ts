@@ -10,10 +10,7 @@ describe('OrganizationService', () => {
     prisma = { organization: { findUnique: jest.fn() } };
 
     const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        OrganizationService,
-        { provide: PrismaService, useValue: prisma },
-      ],
+      providers: [OrganizationService, { provide: PrismaService, useValue: prisma }],
     }).compile();
 
     service = module.get<OrganizationService>(OrganizationService);
