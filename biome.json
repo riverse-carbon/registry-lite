@@ -32,6 +32,9 @@
       "suspicious": {
         "noExplicitAny": "off"
       },
+      "style": {
+        "useImportType": "off"
+      },
       "correctness": {
         "noUnusedImports": "warn"
       }
@@ -44,6 +47,9 @@
       "trailingCommas": "all",
       "jsxQuoteStyle": "double",
       "bracketSameLine": false
+    },
+    "parser": {
+      "unsafeParameterDecoratorsEnabled": true
     }
   },
   "json": {

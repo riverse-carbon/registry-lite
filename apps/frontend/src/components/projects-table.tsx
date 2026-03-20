@@ -11,13 +11,17 @@ import {
   TableHeadCell,
   TableRow,
 } from 'flowbite-react';
+import Link from 'next/link';
 
 const GET_PROJECTS = gql`
   query GetProjects {
     projects {
       id
       name
-      organizationId
+      organization {
+        id
+        name
+      }
     }
   }
 `;
@@ -25,7 +29,7 @@ const GET_PROJECTS = gql`
 type Project = {
   id: string;
   name: string;
-  organizationId: string;
+  organization: { id: string; name: string } | null;
 };
 
 type GetProjectsData = {
@@ -55,7 +59,7 @@ export function ProjectsTable() {
     <Table hoverable>
       <TableHead>
         <TableHeadCell>Project</TableHeadCell>
-        <TableHeadCell>Organization ID</TableHeadCell>
+        <TableHeadCell>Organization</TableHeadCell>
       </TableHead>
       <TableBody className="divide-y">
         {data?.projects.length === 0 && (
@@ -68,10 +72,24 @@ export function ProjectsTable() {
         {data?.projects.map((project) => (
           <TableRow key={project.id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
             <TableCell className="font-medium text-gray-900 dark:text-white">
-              {project.name}
+              <Link
+                href={`/project/${project.id}`}
+                className="hover:text-purple-600 dark:hover:text-purple-400"
+              >
+                {project.name}
+              </Link>
             </TableCell>
-            <TableCell className="font-mono text-xs text-gray-500 dark:text-gray-400">
-              {project.organizationId}
+            <TableCell className="text-gray-700 dark:text-gray-300">
+              {project.organization ? (
+                <Link
+                  href={`/organization/${project.organization.id}`}
+                  className="hover:text-blue-600 dark:hover:text-blue-400"
+                >
+                  {project.organization.name}
+                </Link>
+              ) : (
+                '—'
+              )}
             </TableCell>
           </TableRow>
         ))}

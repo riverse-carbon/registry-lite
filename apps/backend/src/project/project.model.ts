@@ -1,4 +1,5 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Organization } from '../organization/organization.model';
 
 @ObjectType()
 export class Project {
@@ -10,4 +11,7 @@ export class Project {
 
   @Field(() => ID)
   organizationId: string;
+
+  @Field(() => Organization, { nullable: true })
+  organization?: Organization | null;
 }
