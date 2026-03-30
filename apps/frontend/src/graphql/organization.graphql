@@ -1,0 +1,18 @@
+query GetOrganization($id: ID!) {
+  organization(id: $id) {
+    id
+    name
+    projects {
+      id
+      name
+    }
+  }
+}
+
+mutation CreateProject($input: CreateProjectInput!) {
+  createProject(input: $input) {
+    id
+    name
+    organizationId
+  }
+}

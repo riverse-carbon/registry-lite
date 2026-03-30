@@ -1,9 +1,4 @@
-import { Query, Resolver } from '@nestjs/graphql';
+import { Resolver } from '@nestjs/graphql';
 
 @Resolver()
-export class AppResolver {
-  @Query(() => String)
-  hello(): string {
-    return 'Hello from registry-lite!';
-  }
-}
+export class AppResolver {}

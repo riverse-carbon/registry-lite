@@ -3,7 +3,6 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { OrganizationDetail } from './organization-detail';
 
-jest.mock('@apollo/client', () => ({ gql: (s: TemplateStringsArray) => s.join('') }));
 jest.mock('@apollo/client/react', () => ({ useQuery: jest.fn(), useMutation: jest.fn() }));
 jest.mock('flowbite-react', () => ({
   Modal: ({ show, children }: { show: boolean; children: React.ReactNode; onClose: () => void }) =>

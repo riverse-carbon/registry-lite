@@ -1,0 +1,8 @@
+type Query {
+  organization(id: ID!): Organization
+  projects: [Project!]!
+}
+
+type Mutation {
+  createProject(input: CreateProjectInput!): Project!
+}

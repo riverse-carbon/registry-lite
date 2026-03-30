@@ -1,6 +1,5 @@
 'use client';
 
-import { gql } from '@apollo/client';
 import { useMutation, useQuery } from '@apollo/client/react';
 import {
   Button,
@@ -13,37 +12,7 @@ import {
 } from 'flowbite-react';
 import Link from 'next/link';
 import { useState } from 'react';
-
-const GET_ORGANIZATION = gql`
-  query GetOrganization($id: ID!) {
-    organization(id: $id) {
-      id
-      name
-      projects {
-        id
-        name
-      }
-    }
-  }
-`;
-
-const CREATE_PROJECT = gql`
-  mutation CreateProject($input: CreateProjectInput!) {
-    createProject(input: $input) {
-      id
-      name
-      organizationId
-    }
-  }
-`;
-
-type OrganizationData = {
-  organization: {
-    id: string;
-    name: string;
-    projects: { id: string; name: string }[];
-  } | null;
-};
+import { CreateProjectDocument, GetOrganizationDocument } from '@/graphql/__generated__/graphql';
 
 export function OrganizationDetail({ id }: { id: string }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -51,11 +20,11 @@ export function OrganizationDetail({ id }: { id: string }) {
   const [submitting, setSubmitting] = useState(false);
   const [createError, setCreateError] = useState<string | null>(null);
 
-  const { data, loading, error, refetch } = useQuery<OrganizationData>(GET_ORGANIZATION, {
+  const { data, loading, error, refetch } = useQuery(GetOrganizationDocument, {
     variables: { id },
   });
 
-  const [createProject] = useMutation(CREATE_PROJECT);
+  const [createProject] = useMutation(CreateProjectDocument);
 
   const handleOpenModal = () => {
     setCreateError(null);

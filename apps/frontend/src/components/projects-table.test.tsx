@@ -2,7 +2,6 @@ import { useQuery } from '@apollo/client/react';
 import { render, screen } from '@testing-library/react';
 import { ProjectsTable } from './projects-table';
 
-jest.mock('@apollo/client', () => ({ gql: (s: TemplateStringsArray) => s.join('') }));
 jest.mock('@apollo/client/react', () => ({ useQuery: jest.fn() }));
 jest.mock('flowbite-react', () => ({
   Table: ({ children }: { children: React.ReactNode }) => <table>{children}</table>,
