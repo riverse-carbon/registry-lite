@@ -5,6 +5,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { AppController } from './app.controller';
 import { AppResolver } from './app.resolver';
 import { AppService } from './app.service';
+import { OrganizationModule } from './organization/organization.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { ProjectModule } from './project/project.module';
 
@@ -12,11 +13,11 @@ import { ProjectModule } from './project/project.module';
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
-      sortSchema: true,
+      typePaths: [join(__dirname, '**/*.graphql')],
       playground: true,
     }),
     PrismaModule,
+    OrganizationModule,
     ProjectModule,
   ],
   controllers: [AppController],

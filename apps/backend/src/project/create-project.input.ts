@@ -1,10 +1,4 @@
-import { Field, ID, InputType } from '@nestjs/graphql';
-
-@InputType()
-export class CreateProjectInput {
-  @Field()
+export type CreateProjectInput = {
   name: string;
-
-  @Field(() => ID)
   organizationId: string;
-}
+};

@@ -15,7 +15,7 @@
       "**/*.jsx",
       "**/*.json",
       "!**/next-env.d.ts",
-      "!apps/backend/src/schema.gql",
+
       "!apps/frontend/src/graphql/__generated__"
     ]
   },

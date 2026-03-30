@@ -1,7 +1,7 @@
 import { Test, type TestingModule } from '@nestjs/testing';
 import type { Organization } from '../organization/organization.model';
 import { OrganizationService } from '../organization/organization.service';
-import { Project } from './project.model';
+import type { Project } from './project.model';
 import { ProjectResolver } from './project.resolver';
 import { ProjectService } from './project.service';
 
@@ -38,11 +38,7 @@ describe('ProjectResolver', () => {
 
   describe('organization', () => {
     it('resolves the organization for a project', async () => {
-      const project = Object.assign(new Project(), {
-        id: '1',
-        name: 'Project A',
-        organizationId: 'org-1',
-      });
+      const project: Project = { id: '1', name: 'Project A', organizationId: 'org-1' };
       const org: Organization = { id: 'org-1', name: 'Acme' };
       organizationService.findById.mockResolvedValue(org);
 
@@ -53,11 +49,7 @@ describe('ProjectResolver', () => {
     });
 
     it('returns null when the organization is not found', async () => {
-      const project = Object.assign(new Project(), {
-        id: '1',
-        name: 'Project A',
-        organizationId: 'missing-org',
-      });
+      const project: Project = { id: '1', name: 'Project A', organizationId: 'missing-org' };
       organizationService.findById.mockResolvedValue(null);
 
       const result = await resolver.organization(project);
