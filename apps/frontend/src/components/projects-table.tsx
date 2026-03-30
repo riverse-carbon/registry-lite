@@ -1,6 +1,5 @@
 'use client';
 
-import { gql } from '@apollo/client';
 import { useQuery } from '@apollo/client/react';
 import {
   Spinner,
@@ -12,32 +11,10 @@ import {
   TableRow,
 } from 'flowbite-react';
 import Link from 'next/link';
-
-const GET_PROJECTS = gql`
-  query GetProjects {
-    projects {
-      id
-      name
-      organization {
-        id
-        name
-      }
-    }
-  }
-`;
-
-type Project = {
-  id: string;
-  name: string;
-  organization: { id: string; name: string } | null;
-};
-
-type GetProjectsData = {
-  projects: Project[];
-};
+import { GetProjectsDocument } from '@/graphql/__generated__/graphql';
 
 export function ProjectsTable() {
-  const { data, loading, error } = useQuery<GetProjectsData>(GET_PROJECTS);
+  const { data, loading, error } = useQuery(GetProjectsDocument);
 
   if (loading) {
     return (
