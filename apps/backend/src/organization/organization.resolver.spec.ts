@@ -1,5 +1,5 @@
+import type { Organization } from '@generated/prisma-client';
 import { Test, type TestingModule } from '@nestjs/testing';
-import type { Organization } from './organization.model';
 import { OrganizationResolver } from './organization.resolver';
 import { OrganizationService } from './organization.service';
 

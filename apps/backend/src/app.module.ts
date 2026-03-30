@@ -13,7 +13,7 @@ import { ProjectModule } from './project/project.module';
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      typePaths: [join(__dirname, '**/*.graphql')],
+      typePaths: ['./**/*.graphql'],
       playground: true,
     }),
     PrismaModule,

@@ -1,6 +1,5 @@
+import type { Organization, Project } from '@generated/prisma-client';
 import { Args, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
-import type { Project } from '../project/project.model';
-import type { Organization } from './organization.model';
 import { OrganizationService } from './organization.service';
 
 @Resolver('Organization')

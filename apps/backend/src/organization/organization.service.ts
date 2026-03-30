@@ -1,6 +1,6 @@
+import type { Organization } from '@generated/prisma-client';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import type { Organization } from './organization.model';
 
 @Injectable()
 export class OrganizationService {

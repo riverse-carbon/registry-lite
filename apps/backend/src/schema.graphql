@@ -1,27 +1,8 @@
 type Query {
-  hello: String!
   organization(id: ID!): Organization
   projects: [Project!]!
 }
 
 type Mutation {
   createProject(input: CreateProjectInput!): Project!
-}
-
-type Organization {
-  id: ID!
-  name: String!
-  projects: [Project!]!
-}
-
-type Project {
-  id: ID!
-  name: String!
-  organizationId: ID!
-  organization: Organization
-}
-
-input CreateProjectInput {
-  name: String!
-  organizationId: ID!
 }

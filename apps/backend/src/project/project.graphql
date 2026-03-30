@@ -1,0 +1,12 @@
+type Project {
+  id: ID!
+  name: String!
+  organizationId: ID!
+  organization: Organization
+  fooba: String!
+}
+
+input CreateProjectInput {
+  name: String!
+  organizationId: ID!
+}
