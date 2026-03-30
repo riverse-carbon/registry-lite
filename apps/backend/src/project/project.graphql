@@ -3,7 +3,6 @@ type Project {
   name: String!
   organizationId: ID!
   organization: Organization
-  fooba: String!
 }
 
 input CreateProjectInput {

@@ -7,13 +7,14 @@
     "assets": [
       {
         "include": "../@generated",
-        "outDir": "dist/@generated"
+        "outDir": "dist/@generated",
+        "watchAssets": true
       },
       {
         "include": "./**/*.graphql",
-        "outDir": "dist/graphql/schema"
+        "outDir": "dist/graphql/schema",
+        "watchAssets": true
       }
-    ],
-    "watchAssets": true
+    ]
   }
 }
