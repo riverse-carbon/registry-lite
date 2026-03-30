@@ -39,16 +39,11 @@ Start the local PostgreSQL database (from `apps/backend/`, or prefix with `pnpm 
 pnpm --filter backend db:up
 ```
 
-Copy the environment files and apply migrations:
+Apply migrations, generate prisma client & graphql types:
 
 ```bash
-cp apps/backend/.env.example apps/backend/.env
-cp apps/frontend/.env.example apps/frontend/.env.local
-pnpm --filter backend db:migrate    # applies migrations, creates the schema
-pnpm --filter backend db:generate   # generates the Prisma client and GraphQL types
+pnpm --filter backend prisma migrate reset
 ```
-
-The credentials in `.env.example` already match `apps/backend/docker-compose.yml`, so no edits are needed for local development.
 
 Other database commands:
 
