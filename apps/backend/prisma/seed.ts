@@ -9,6 +9,7 @@ async function main() {
     create: {
       id: '00000000-0000-0000-0000-000000000001',
       name: 'Org A',
+      type: 'DEVELOPER',
       projects: {
         create: {
           id: '00000000-0000-0000-0000-000000000011',
@@ -24,6 +25,7 @@ async function main() {
     create: {
       id: '00000000-0000-0000-0000-000000000002',
       name: 'Org B',
+      type: 'DEVELOPER',
       projects: {
         create: {
           id: '00000000-0000-0000-0000-000000000012',
