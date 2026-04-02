@@ -27,6 +27,6 @@
       "@generated/*": ["@generated/*"]
     }
   },
-  "include": ["src", "test", "prisma", "scripts"],
+  "include": ["src", "test", "prisma", "scripts", "prisma.config.ts"],
   "exclude": ["node_modules"]
 }
