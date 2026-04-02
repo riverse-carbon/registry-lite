@@ -4,10 +4,10 @@ import { ProjectService } from './project.service';
 
 describe('ProjectService', () => {
   let service: ProjectService;
-  let prisma: { project: { findMany: jest.Mock; create: jest.Mock } };
+  let prisma: { project: { findMany: jest.Mock; findUnique: jest.Mock; create: jest.Mock } };
 
   beforeEach(async () => {
-    prisma = { project: { findMany: jest.fn(), create: jest.fn() } };
+    prisma = { project: { findMany: jest.fn(), findUnique: jest.fn(), create: jest.fn() } };
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [ProjectService, { provide: PrismaService, useValue: prisma }],
@@ -24,6 +24,26 @@ describe('ProjectService', () => {
       const result = await service.findAll();
 
       expect(result).toEqual(projects);
+    });
+  });
+
+  describe('findById', () => {
+    it('returns the project when it exists', async () => {
+      const project = { id: '1', name: 'Alpha', organizationId: 'org-1' };
+      prisma.project.findUnique.mockResolvedValue(project);
+
+      const result = await service.findById('1');
+
+      expect(result).toEqual(project);
+      expect(prisma.project.findUnique).toHaveBeenCalledWith({ where: { id: '1' } });
+    });
+
+    it('returns null when the project does not exist', async () => {
+      prisma.project.findUnique.mockResolvedValue(null);
+
+      const result = await service.findById('missing');
+
+      expect(result).toBeNull();
     });
   });
 

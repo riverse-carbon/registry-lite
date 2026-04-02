@@ -1,4 +1,4 @@
-import type { Organization } from '@generated/prisma-client';
+import { type Organization, OrganizationType } from '@generated/prisma-client';
 import { Test, type TestingModule } from '@nestjs/testing';
 import { OrganizationResolver } from './organization.resolver';
 import { OrganizationService } from './organization.service';
@@ -28,7 +28,7 @@ describe('OrganizationResolver', () => {
 
   describe('organization query', () => {
     it('returns the organization for a given id', async () => {
-      const org: Organization = { id: 'org-1', name: 'Acme' };
+      const org: Organization = { id: 'org-1', name: 'Acme', type: OrganizationType.DEVELOPER };
       organizationService.findById.mockResolvedValue(org);
 
       const result = await resolver.organization('org-1');
@@ -50,7 +50,11 @@ describe('OrganizationResolver', () => {
     it('returns the projects for the parent organization', async () => {
       const projects = [{ id: 'proj-1', name: 'Solar Farm', organizationId: 'org-1' }];
       organizationService.findProjectsByOrganizationId.mockResolvedValue(projects);
-      const org: Organization = { id: 'org-1', name: 'Acme' };
+      const org: Organization = {
+        id: 'org-1',
+        name: 'Acme',
+        type: OrganizationType.DEVELOPER,
+      };
 
       const result = await resolver.projects(org);
 

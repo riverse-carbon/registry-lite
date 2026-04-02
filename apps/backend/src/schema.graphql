@@ -1,5 +1,6 @@
 type Query {
   organization(id: ID!): Organization
+  project(id: ID!): Project
   projects: [Project!]!
 }
 

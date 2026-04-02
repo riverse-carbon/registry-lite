@@ -16,6 +16,11 @@ export class ProjectResolver {
     return this.projectService.findAll();
   }
 
+  @Query('project')
+  project(@Args('id') id: string): Promise<Project | null> {
+    return this.projectService.findById(id);
+  }
+
   @Mutation('createProject')
   createProject(@Args('input') input: CreateProjectInput): Promise<Project> {
     return this.projectService.create(input);
