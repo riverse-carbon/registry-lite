@@ -4,11 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "graphql-codegen --config codegen.ts --watch & next dev",
-    "build": "next build",
+    "build": "graphql-codegen --config codegen.ts && next build",
     "start": "next start",
     "lint": "biome check .",
-    "typecheck": "tsc --noEmit",
-    "test": "jest",
+    "typecheck": "graphql-codegen --config codegen.ts && tsc --noEmit",
+    "test": "graphql-codegen --config codegen.ts && jest",
     "codegen": "graphql-codegen --config codegen.ts"
   },
   "dependencies": {
