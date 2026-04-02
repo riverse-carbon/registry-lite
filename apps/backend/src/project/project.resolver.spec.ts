@@ -1,4 +1,4 @@
-import type { Organization, Project } from '@generated/prisma-client';
+import { type Organization, OrganizationType, type Project } from '@generated/prisma-client';
 import { Test, type TestingModule } from '@nestjs/testing';
 import { OrganizationService } from '../organization/organization.service';
 import { ProjectResolver } from './project.resolver';
@@ -6,11 +6,11 @@ import { ProjectService } from './project.service';
 
 describe('ProjectResolver', () => {
   let resolver: ProjectResolver;
-  let projectService: { findAll: jest.Mock; create: jest.Mock };
+  let projectService: { findAll: jest.Mock; findById: jest.Mock; create: jest.Mock };
   let organizationService: { findById: jest.Mock };
 
   beforeEach(async () => {
-    projectService = { findAll: jest.fn(), create: jest.fn() };
+    projectService = { findAll: jest.fn(), findById: jest.fn(), create: jest.fn() };
     organizationService = { findById: jest.fn() };
 
     const module: TestingModule = await Test.createTestingModule({
@@ -22,6 +22,26 @@ describe('ProjectResolver', () => {
     }).compile();
 
     resolver = module.get<ProjectResolver>(ProjectResolver);
+  });
+
+  describe('project', () => {
+    it('returns the project when it exists', async () => {
+      const project = { id: '1', name: 'Project A', organizationId: 'org-1' };
+      projectService.findById.mockResolvedValue(project);
+
+      const result = await resolver.project('1');
+
+      expect(result).toEqual(project);
+      expect(projectService.findById).toHaveBeenCalledWith('1');
+    });
+
+    it('returns null when the project does not exist', async () => {
+      projectService.findById.mockResolvedValue(null);
+
+      const result = await resolver.project('missing');
+
+      expect(result).toBeNull();
+    });
   });
 
   describe('projects', () => {
@@ -38,7 +58,7 @@ describe('ProjectResolver', () => {
   describe('organization', () => {
     it('resolves the organization for a project', async () => {
       const project: Project = { id: '1', name: 'Project A', organizationId: 'org-1' };
-      const org: Organization = { id: 'org-1', name: 'Acme', type: 'DEVELOPER' };
+      const org: Organization = { id: 'org-1', name: 'Acme', type: OrganizationType.DEVELOPER };
       organizationService.findById.mockResolvedValue(org);
 
       const result = await resolver.organization(project);

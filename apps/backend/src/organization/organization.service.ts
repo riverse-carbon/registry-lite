@@ -1,4 +1,4 @@
-import type { Organization } from '@generated/prisma-client';
+import type { Organization, Project } from '@generated/prisma-client';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 
@@ -10,9 +10,10 @@ export class OrganizationService {
     return this.prisma.organization.findUnique({ where: { id } });
   }
 
-  findProjectsByOrganizationId(
-    organizationId: string,
-  ): Promise<{ id: string; name: string; organizationId: string }[]> {
-    return this.prisma.project.findMany({ where: { organizationId } });
+  async findProjectsByOrganizationId(organizationId: string): Promise<Array<Project>> {
+    const projects = await this.prisma.organization
+      .findUnique({ where: { id: organizationId } })
+      .projects();
+    return projects ?? [];
   }
 }

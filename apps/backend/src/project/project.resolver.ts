@@ -12,8 +12,13 @@ export class ProjectResolver {
   ) {}
 
   @Query('projects')
-  projects(): Promise<Project[]> {
+  projects(): Promise<Array<Project>> {
     return this.projectService.findAll();
+  }
+
+  @Query('project')
+  project(@Args('id') id: string): Promise<Project | null> {
+    return this.projectService.findById(id);
   }
 
   @Mutation('createProject')
