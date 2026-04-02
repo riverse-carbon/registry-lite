@@ -1,7 +1,6 @@
+import type { Organization, Project } from '@generated/prisma-client';
 import { Test, type TestingModule } from '@nestjs/testing';
-import type { Organization } from '../organization/organization.model';
 import { OrganizationService } from '../organization/organization.service';
-import type { Project } from './project.model';
 import { ProjectResolver } from './project.resolver';
 import { ProjectService } from './project.service';
 
@@ -39,7 +38,7 @@ describe('ProjectResolver', () => {
   describe('organization', () => {
     it('resolves the organization for a project', async () => {
       const project: Project = { id: '1', name: 'Project A', organizationId: 'org-1' };
-      const org: Organization = { id: 'org-1', name: 'Acme' };
+      const org: Organization = { id: 'org-1', name: 'Acme', type: 'DEVELOPER' };
       organizationService.findById.mockResolvedValue(org);
 
       const result = await resolver.organization(project);
