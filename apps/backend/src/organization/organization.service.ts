@@ -10,7 +10,7 @@ export class OrganizationService {
     return this.prisma.organization.findUnique({ where: { id } });
   }
 
-  async findProjectsByOrganizationId(organizationId: string): Promise<Project[]> {
+  async findProjectsByOrganizationId(organizationId: string): Promise<Array<Project>> {
     const projects = await this.prisma.organization
       .findUnique({ where: { id: organizationId } })
       .projects();

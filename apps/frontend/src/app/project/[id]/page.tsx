@@ -27,7 +27,7 @@ async function loadProject(id: string) {
         organization?: { id: string; name: string } | null;
       } | null;
     };
-    errors?: readonly { message?: string }[];
+    errors?: ReadonlyArray<{ message?: string }>;
   };
 
   if (json.errors?.length) {

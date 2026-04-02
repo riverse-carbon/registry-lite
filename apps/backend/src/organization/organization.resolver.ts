@@ -12,7 +12,7 @@ export class OrganizationResolver {
   }
 
   @ResolveField('projects')
-  projects(@Parent() org: Organization): Promise<Project[]> {
+  projects(@Parent() org: Organization): Promise<Array<Project>> {
     return this.organizationService.findProjectsByOrganizationId(org.id);
   }
 }

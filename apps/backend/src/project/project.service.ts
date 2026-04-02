@@ -7,7 +7,7 @@ import type { CreateProjectInput } from './create-project.input';
 export class ProjectService {
   constructor(private readonly prisma: PrismaService) {}
 
-  findAll(): Promise<Project[]> {
+  findAll(): Promise<Array<Project>> {
     return this.prisma.project.findMany();
   }
 

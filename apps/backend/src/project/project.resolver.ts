@@ -12,7 +12,7 @@ export class ProjectResolver {
   ) {}
 
   @Query('projects')
-  projects(): Promise<Project[]> {
+  projects(): Promise<Array<Project>> {
     return this.projectService.findAll();
   }
 

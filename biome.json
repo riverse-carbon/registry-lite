@@ -34,7 +34,13 @@
         "noExplicitAny": "off"
       },
       "style": {
-        "useImportType": "off"
+        "useImportType": "off",
+        "useConsistentArrayType": {
+          "level": "error",
+          "options": {
+            "syntax": "generic"
+          }
+        }
       },
       "correctness": {
         "noUnusedImports": "warn"
