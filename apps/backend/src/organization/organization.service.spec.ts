@@ -4,10 +4,10 @@ import { OrganizationService } from './organization.service';
 
 describe('OrganizationService', () => {
   let service: OrganizationService;
-  let prisma: { organization: { findUnique: jest.Mock }; project: { findMany: jest.Mock } };
+  let prisma: { organization: { findUnique: jest.Mock } };
 
   beforeEach(async () => {
-    prisma = { organization: { findUnique: jest.fn() }, project: { findMany: jest.fn() } };
+    prisma = { organization: { findUnique: jest.fn() } };
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [OrganizationService, { provide: PrismaService, useValue: prisma }],
@@ -42,20 +42,31 @@ describe('OrganizationService', () => {
         { id: 'proj-1', name: 'Solar Farm', organizationId: 'org-1' },
         { id: 'proj-2', name: 'Wind Park', organizationId: 'org-1' },
       ];
-      prisma.project.findMany.mockResolvedValue(projects);
+      const projectsMock = jest.fn().mockResolvedValue(projects);
+      prisma.organization.findUnique.mockReturnValue({ projects: projectsMock });
 
       const result = await service.findProjectsByOrganizationId('org-1');
 
       expect(result).toEqual(projects);
-      expect(prisma.project.findMany).toHaveBeenCalledWith({
-        where: { organizationId: 'org-1' },
+      expect(prisma.organization.findUnique).toHaveBeenCalledWith({
+        where: { id: 'org-1' },
       });
+      expect(projectsMock).toHaveBeenCalledWith();
     });
 
     it('returns an empty array when the organization has no projects', async () => {
-      prisma.project.findMany.mockResolvedValue([]);
+      const projectsMock = jest.fn().mockResolvedValue([]);
+      prisma.organization.findUnique.mockReturnValue({ projects: projectsMock });
 
       const result = await service.findProjectsByOrganizationId('org-empty');
+
+      expect(result).toEqual([]);
+    });
+
+    it('returns an empty array when the organization does not exist', async () => {
+      prisma.organization.findUnique.mockReturnValue({ projects: () => Promise.resolve(null) });
+
+      const result = await service.findProjectsByOrganizationId('unknown-org');
 
       expect(result).toEqual([]);
     });
