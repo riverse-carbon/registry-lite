@@ -1,23 +1,16 @@
 import { render, screen } from '@testing-library/react';
-import { makeServerApolloClient } from '@/lib/apollo-client';
+import { query } from '@/lib/apollo-rsc';
 import ProjectPage from './page';
 
-jest.mock('@/lib/apollo-client', () => ({
-  makeServerApolloClient: jest.fn(),
+jest.mock('@/lib/apollo-rsc', () => ({
+  query: jest.fn(),
 }));
 
-const mockMakeServerApolloClient = makeServerApolloClient as jest.MockedFunction<
-  typeof makeServerApolloClient
->;
+const mockQuery = query as jest.MockedFunction<typeof query>;
 
 describe('ProjectPage', () => {
-  const mockQuery = jest.fn();
-
   beforeEach(() => {
     mockQuery.mockReset();
-    mockMakeServerApolloClient.mockReturnValue({
-      query: mockQuery,
-    } as unknown as ReturnType<typeof makeServerApolloClient>);
   });
 
   it('loads project details from GraphQL and displays the name', async () => {

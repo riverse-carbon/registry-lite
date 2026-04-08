@@ -1,10 +1,9 @@
 import Link from 'next/link';
 import { GetProjectDocument } from '@/graphql/__generated__/graphql';
-import { makeServerApolloClient } from '@/lib/apollo-client';
+import { query } from '@/lib/apollo-rsc';
 
 async function loadProject(id: string) {
-  const client = makeServerApolloClient();
-  const { data } = await client.query({
+  const { data } = await query({
     query: GetProjectDocument,
     variables: { id },
     fetchPolicy: 'no-cache',
