@@ -1,41 +1,14 @@
-import { print } from 'graphql';
 import Link from 'next/link';
 import { GetProjectDocument } from '@/graphql/__generated__/graphql';
-
-const graphqlUrl = process.env.NEXT_PUBLIC_GRAPHQL_URL ?? 'http://localhost:3001/graphql';
+import { query } from '@/lib/apollo-rsc';
 
 async function loadProject(id: string) {
-  const response = await fetch(graphqlUrl, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      query: print(GetProjectDocument),
-      variables: { id },
-    }),
-    cache: 'no-store',
+  const { data } = await query({
+    query: GetProjectDocument,
+    variables: { id },
+    fetchPolicy: 'no-cache',
   });
-
-  if (!response.ok) {
-    throw new Error(`GraphQL request failed with status ${response.status}`);
-  }
-
-  const json = (await response.json()) as {
-    data?: {
-      project?: {
-        id: string;
-        name: string;
-        organization?: { id: string; name: string } | null;
-      } | null;
-    };
-    errors?: ReadonlyArray<{ message?: string }>;
-  };
-
-  if (json.errors?.length) {
-    const message = json.errors.map((e) => e.message ?? 'Unknown error').join(', ');
-    throw new Error(message);
-  }
-
-  return json.data?.project ?? null;
+  return data?.project ?? null;
 }
 
 export default async function ProjectPage({ params }: { params: Promise<{ id: string }> }) {

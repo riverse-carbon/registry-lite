@@ -8,11 +8,12 @@
     "start": "next start",
     "lint": "biome check .",
     "typecheck": "graphql-codegen --config codegen.ts && tsc --noEmit",
-    "test": "graphql-codegen --config codegen.ts && jest",
+    "test": "NODE_OPTIONS='--conditions=react-server' graphql-codegen --config codegen.ts && NODE_OPTIONS='--conditions=react-server' jest",
     "codegen": "graphql-codegen --config codegen.ts"
   },
   "dependencies": {
     "@apollo/client": "^4.1.6",
+    "@apollo/experimental-nextjs-app-support": "^0.14.4",
     "flowbite-react": "^0.12.17",
     "geist": "^1.7.0",
     "graphql": "^16.13.1",
